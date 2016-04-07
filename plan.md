@@ -24,16 +24,16 @@ Om det er tid igjen ville det vært gøy å hekte systemet opp mot en API på en
 Jeg velger iterativ utvikling hvor jeg heller leverer noe smått som fungerer og senere bygger opp på det igjen. Da vil det være mulig å rekke tidsfristen med et fungerende prosjekt. Forståelsen av systemet blir også enklere.
 
 Hvis denne prosessen skal deles inn vil jeg starte med:
-- [ ] Meny og inndeling av *skjermer*.
-- [ ] Generelle *knapper* med funksjoner.
-- [ ] En *hovedperson* med ønsket funksjonalitet.
-- [ ] Lage *banestruktur*.
-- [ ] Få hovedpersonen til å *inteferere* med en bane.
-- [ ] Lage kuler som kan detektere *kollisjon* med objekter.
-- [ ] Få kulene til å bli *skutt* fra hovedperson.
-- [ ] Kulene skal kunne *endre* banen på visse områder.
-- [ ] Legge til *lyd* av kollisjoner.
-- [ ] Lage litt *grafikk* samt *effekter*.
+- [ ] Meny og inndeling av **skjermer**.
+- [ ] Generelle **knapper** med funksjoner.
+- [ ] En **hovedperson** med ønsket funksjonalitet.
+- [ ] Lage **banestruktur**.
+- [ ] Få hovedpersonen til å **inteferere** med en bane.
+- [ ] Lage kuler som kan detektere **kollisjon** med objekter.
+- [ ] Få kulene til å bli **skutt** fra hovedperson.
+- [ ] Kulene skal kunne **endre** banen på visse områder.
+- [ ] Legge til **lyd** av kollisjoner.
+- [ ] Lage litt **grafikk** samt **effekter**.
 - [ ] Lage en faktisk fungerende bane.
 - [ ] Lage en loading og en slutt på spillet.
 
