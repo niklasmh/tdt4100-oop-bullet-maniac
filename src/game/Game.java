@@ -10,18 +10,18 @@ import java.util.Map;
 /**
  * Created by niklasmh on 10.04.16.
  */
-public class Main extends Application {
+public class Game extends Application {
 
     public static HashMap<String, String> screens = new HashMap<>();
 
     @Override
     public void start(Stage stg) throws Exception {
-        Main.screens.put("menu", "menu.fxml");
-        Main.screens.put("game", "game.fxml");
+        Game.screens.put("menu", "menu.fxml");
+        Game.screens.put("game", "game.fxml");
 
         ScreenController scrCtrl = new ScreenController();
 
-        for (Map.Entry<String, String> screen : Main.screens.entrySet()) {
+        for (Map.Entry<String, String> screen : Game.screens.entrySet()) {
             scrCtrl.loadScreen(screen.getKey(), "views/" + screen.getValue());
         }
 
