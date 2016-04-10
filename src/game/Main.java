@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Created by niklasmh on 10.04.16.
+ */
 public class Main extends Application {
 
     @Override
@@ -15,7 +18,6 @@ public class Main extends Application {
         stg.setScene(new Scene(root, 300, 275));
         stg.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
