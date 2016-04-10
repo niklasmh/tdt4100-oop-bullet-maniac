@@ -3,8 +3,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="game.controllers.MenuController"
+<?import javafx.scene.layout.VBox?>
+<GridPane styleClass="root" fx:controller="game.controllers.MenuController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <Label>Bullet Maniac!!!</Label>
-    <Button mnemonicParsing="false" onAction="#goToGame" text="Play" />
+    <children>
+        <Label>Bullet Maniac!!!</Label>
+        <VBox>
+            <Button mnemonicParsing="false" onAction="#goToGame" text="Play" styleClass="btn" />
+            <Button mnemonicParsing="false" onAction="#goToGame" text="New btn" />
+        </VBox>
+    </children>
 </GridPane>
