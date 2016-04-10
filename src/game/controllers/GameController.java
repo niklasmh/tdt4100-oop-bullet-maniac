@@ -1,13 +1,17 @@
-package game;
+package game.controllers;
 
+import game.CurrentScreen;
+import game.ScreenController;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
  * Created by niklasmh on 10.04.16.
  */
-public class MenuController implements Initializable, CurrentScreen {
+public class GameController implements Initializable, CurrentScreen {
     ScreenController scrCtrl;
 
     @Override
@@ -22,5 +26,10 @@ public class MenuController implements Initializable, CurrentScreen {
      */
     public void setScreen(ScreenController screen) {
         this.scrCtrl = screen;
+    }
+
+    @FXML
+    public void goToMenu (ActionEvent evt) {
+        this.scrCtrl.setScreen("menu");
     }
 }

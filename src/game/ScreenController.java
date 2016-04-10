@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
-
 import java.util.HashMap;
 
 /**
@@ -54,8 +53,8 @@ public class ScreenController extends StackPane {
     public boolean loadScreen(String id, String src) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(src));
-            Parent loadScreen = (Parent) loader.load();
-            CurrentScreen currScreen = ((CurrentScreen) loader.getController());
+            Parent loadScreen = (Parent)loader.load();
+            CurrentScreen currScreen = (CurrentScreen)loader.getController();
             currScreen.setScreen(this);
             addScreen(id, loadScreen);
 

@@ -3,7 +3,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="game.MenuController"
+<GridPane fx:controller="game.controllers.GameController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <Button>Test</Button>
+    <Label>This is the game screen</Label>
+    <Button mnemonicParsing="false" onAction="#goToMenu" text="Menu" id="windows7-default" />
 </GridPane>
