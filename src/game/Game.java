@@ -1,9 +1,13 @@
 package game;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +17,8 @@ import java.util.Map;
 public class Game extends Application {
 
     public static HashMap<String, String> screens = new HashMap<>();
+    public static Point size = new Point(640, 480);
+    public static Parent sceneRoot;
 
     @Override
     public void start(Stage stg) throws Exception {
@@ -29,11 +35,19 @@ public class Game extends Application {
 
         Group root = new Group();
         root.getChildren().addAll(scrCtrl);
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, size.getX(), size.getY());
         scene.getStylesheets().add("game/resources/main.css");
         stg.setScene(scene);
+        sceneRoot = scene.getRoot();
         stg.setTitle("Bullet Maniac");
         stg.show();
+
+        new AnimationTimer() {
+            public void handle(long currentTime) {
+                sceneRoot.setScaleX(stg.getWidth() / size.getX());
+                sceneRoot.setScaleY(stg.getHeight() / size.getY());
+            }
+        }.start();
     }
 
     public static void main(String[] args) {
