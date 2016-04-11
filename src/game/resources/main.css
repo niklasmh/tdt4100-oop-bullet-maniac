@@ -1,8 +1,16 @@
-.root {
+#root {
     -fx-font-size: 24;
     -fx-font-family: "Courier New";
-    -fx-base: rgb(132, 145, 47);
-    -fx-background: rgb(225, 228, 203);
+    -fx-base: #fff;
+    -fx-background: #222;
+}
+
+.game-menu {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 90%, #444, #000);
+}
+
+.game {
+    -fx-background-color: #333;
 }
 
 .button {
@@ -10,8 +18,6 @@
     -fx-background-radius: 3;
     -fx-padding: 6 12;
     -fx-text-fill: #fff;
-    -fx-start-margin: 4;
-    -fx-animated: true;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .5), 4, 0, 0, 1);
 }
 .button:hover {

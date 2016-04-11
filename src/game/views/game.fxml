@@ -1,10 +1,24 @@
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="game.controllers.GameController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <Label>This is the game screen</Label>
-    <Button mnemonicParsing="false" onAction="#goToMenu" text="Menu" id="windows7-default" />
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<GridPane id="root" styleClass="game" fx:controller="game.controllers.GameController"
+          xmlns:fx="http://javafx.com/fxml">
+    <columnConstraints>
+        <ColumnConstraints prefWidth="640" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints prefHeight="480" />
+    </rowConstraints>
+    <children>
+        <VBox alignment="CENTER" spacing="10">
+            <children>
+                <Label>Playing...</Label>
+                <Button onAction="#goToMenu" text="Menu" />
+                <Button onAction="#goToMenu" text="Mesadasdasdnu" />
+            </children>
+        </VBox>
+    </children>
 </GridPane>

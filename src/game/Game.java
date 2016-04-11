@@ -17,8 +17,7 @@ import java.util.Map;
 public class Game extends Application {
 
     public static HashMap<String, String> screens = new HashMap<>();
-    public static Point size = new Point(640, 480);
-    public static Point minSize = new Point(640, 480);
+    public static Point size = new Point(640, 640);
     public static Parent sceneRoot;
 
     @Override
@@ -48,7 +47,7 @@ public class Game extends Application {
                 double scrW = stg.getWidth();
                 double scrH = stg.getHeight();
                 double ratio = scrW / scrH;
-                double minRatio = minSize.getX() / minSize.getY();
+                double minRatio = size.getX() / size.getY();
 
                 if (minRatio > ratio) {
                     sceneRoot.setScaleX(scrH / size.getY());
