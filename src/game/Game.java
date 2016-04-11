@@ -18,6 +18,7 @@ public class Game extends Application {
 
     public static HashMap<String, String> screens = new HashMap<>();
     public static Point size = new Point(640, 480);
+    public static Point minSize = new Point(640, 480);
     public static Parent sceneRoot;
 
     @Override
@@ -46,11 +47,20 @@ public class Game extends Application {
             public void handle(long currentTime) {
                 double scrW = stg.getWidth();
                 double scrH = stg.getHeight();
+                double ratio = scrW / scrH;
+                double minRatio = minSize.getX() / minSize.getY();
 
-                sceneRoot.setScaleX(scrW / size.getX());
-                sceneRoot.setScaleY(scrH / size.getY());
-                sceneRoot.setTranslateX((scrW - size.getX()) / 2);
-                sceneRoot.setTranslateY((scrH - size.getY()) / 2);
+                if (minRatio > ratio) {
+                    sceneRoot.setScaleX(scrH / size.getY());
+                    sceneRoot.setScaleY(scrH / size.getY());
+                    sceneRoot.setTranslateX((scrW - size.getX()) / 2);
+                    sceneRoot.setTranslateY((scrH - size.getY()) / 2);
+                } else {
+                    sceneRoot.setScaleX(scrW / size.getX());
+                    sceneRoot.setScaleY(scrW / size.getX());
+                    sceneRoot.setTranslateX((scrW - size.getX()) / 2);
+                    sceneRoot.setTranslateY((scrH - size.getY()) / 2);
+                }
             }
         }.start();
     }
