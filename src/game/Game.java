@@ -44,8 +44,13 @@ public class Game extends Application {
 
         new AnimationTimer() {
             public void handle(long currentTime) {
-                sceneRoot.setScaleX(stg.getWidth() / size.getX());
-                sceneRoot.setScaleY(stg.getHeight() / size.getY());
+                double scrW = stg.getWidth();
+                double scrH = stg.getHeight();
+
+                sceneRoot.setScaleX(scrW / size.getX());
+                sceneRoot.setScaleY(scrH / size.getY());
+                sceneRoot.setTranslateX((scrW - size.getX()) / 2);
+                sceneRoot.setTranslateY((scrH - size.getY()) / 2);
             }
         }.start();
     }
