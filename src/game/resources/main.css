@@ -9,6 +9,25 @@
     -fx-background-color: radial-gradient(center 50% 50%, radius 90%, #444, #000);
 }
 
+.credit {
+    -fx-font-size: .7em;
+    -fx-fill: #ddd;
+    -fx-effect: dropshadow(gaussian, #000, 0, 0.0, 0, -1);
+    -fx-text-alignment: center;
+}
+
+.text {
+    -fx-effect: dropshadow(gaussian, #000, 0, 0.0, 0, -1);
+}
+
+.window-border .button {
+    -fx-max-width: 52px;
+    -fx-min-width: 52px;
+    -fx-max-height: 52px;
+    -fx-min-height: 52px;
+    -fx-font-size: .8em;
+}
+
 .game {
     -fx-background-color: #333;
 }
@@ -52,6 +71,16 @@
 }
 .button.secondary:pressed {
     -fx-background-color: rgba(0, 127, 255, 1), linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .2));
+}
+
+.button.danger {
+    -fx-background-color: rgba(255, 0, 0, .8), linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+}
+.button.danger:hover {
+    -fx-background-color: rgba(255, 0, 0, 1), linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+}
+.button.danger:pressed {
+    -fx-background-color: rgba(255, 0, 0, 1), linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .2));
 }
 
 .button .text {
