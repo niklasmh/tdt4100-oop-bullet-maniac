@@ -1,0 +1,25 @@
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+<GridPane id="root" styleClass="game-menu" fx:controller="game.controllers.CreditController"
+          xmlns:fx="http://javafx.com/fxml">
+    <columnConstraints>
+        <ColumnConstraints prefWidth="640" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints prefHeight="480" />
+    </rowConstraints>
+    <children>
+        <VBox alignment="CENTER" spacing="10">
+            <children>
+                <Label>Credit</Label>
+                <Text wrappingWidth="256" styleClass="credit">Made by Niklas Molnes Hole with use of JavaFX.</Text>
+                <Button onAction="#goToMenu" styleClass="danger" text="Back" />
+            </children>
+        </VBox>
+    </children>
+</GridPane>

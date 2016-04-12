@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
 <GridPane id="root" styleClass="game-menu" fx:controller="game.controllers.MenuController"
           xmlns:fx="http://javafx.com/fxml">
     <columnConstraints>
@@ -13,12 +14,22 @@
         <RowConstraints prefHeight="480" />
     </rowConstraints>
     <children>
-        <VBox alignment="CENTER" spacing="10">
-            <children>
-                <Label>Bullet Maniac!</Label>
-                <Button onAction="#goToGame" styleClass="primary" text="Play" />
-                <Button onAction="#goToGame" text="New btn" />
-            </children>
+        <VBox alignment="CENTER">
+            <!--<VBox alignment="TOP_RIGHT" styleClass="window-border" spacing="16">
+                <children>
+                    <Button onAction="#windowClose" text="X" translateX="-16" translateY="16" />
+                    <Button onAction="#windowMax" text="[ ]" translateX="-16" translateY="16" />
+                    <Button onAction="#windowMin" text="_" translateX="-16" translateY="16" />
+                </children>
+            </VBox>-->
+            <VBox alignment="CENTER" spacing="10">
+                <children>
+                    <Label>Bullet Maniac!</Label>
+                    <Button onAction="#goToGame" styleClass="primary" text="Play" />
+                    <Button onAction="#goToCredit" text="Creds" />
+                    <Button onAction="#windowClose" styleClass="danger" text="Exit" />
+                </children>
+            </VBox>
         </VBox>
     </children>
 </GridPane>

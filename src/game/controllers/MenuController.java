@@ -2,6 +2,7 @@ package game.controllers;
 
 import game.CurrentScreen;
 import game.ScreenController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
@@ -31,5 +32,15 @@ public class MenuController implements Initializable, CurrentScreen {
     @FXML
     public void goToGame (ActionEvent evt) {
         this.scrCtrl.setScreen("game");
+    }
+
+    @FXML
+    public void goToCredit (ActionEvent evt) {
+        this.scrCtrl.setScreen("credit");
+    }
+
+    @FXML
+    public void windowClose (ActionEvent evt) {
+        Platform.exit();
     }
 }
