@@ -8,7 +8,7 @@ Om det er tid igjen ville det vært gøy å hekte systemet opp mot en API på en
 
 ### 2. Krav
 
-- [ ] Skal være responsivt og støtte de fleste skjermer.
+- [x] Skal være responsivt og støtte de fleste skjermer.
 - [ ] Skal tegne det meste av grafikken med vektorer slik at det blir skalerbart og like fint.
 - [ ] Foreløpig støtte piltaster og datamus.
 - [ ] Være up-to-date med JDK 8
@@ -24,8 +24,8 @@ Om det er tid igjen ville det vært gøy å hekte systemet opp mot en API på en
 Jeg velger iterativ utvikling hvor jeg heller leverer noe smått som fungerer og senere bygger opp på det igjen. Da vil det være mulig å rekke tidsfristen med et fungerende prosjekt. Forståelsen av systemet blir også enklere.
 
 Hvis denne prosessen skal deles inn vil jeg starte med:
-- [ ] Meny og inndeling av **skjermer**.
-- [ ] Generelle **knapper** med funksjoner.
+- [x] Meny og inndeling av **skjermer**.
+- [x] Generelle **knapper** med funksjoner.
 - [ ] En **hovedperson** med ønsket funksjonalitet.
 - [ ] Lage **banestruktur**.
 - [ ] Få hovedpersonen til å **inteferere** med en bane.
