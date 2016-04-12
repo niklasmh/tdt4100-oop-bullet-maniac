@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.HBox?>
 <GridPane id="root" styleClass="game" fx:controller="game.controllers.GameController"
           xmlns:fx="http://javafx.com/fxml">
     <columnConstraints>
@@ -15,9 +17,18 @@
     <children>
         <VBox alignment="CENTER" spacing="10">
             <children>
-                <Label>Playing...</Label>
-                <Button onAction="#goToMenu" text="Menu" />
-                <Button onAction="#goToMenu" text="Mesadasdasdnu" />
+                <VBox alignment="CENTER" fx:id="gameMenu" spacing="16">
+                    <children>
+                        <Label>Paused</Label>
+                        <Button onAction="#toggleMenu" text="Back to game" />
+                        <Button onAction="#goToMainMenu" styleClass="danger" text="Main menu" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" fx:id="gamePlay">
+                    <children>
+                        <Canvas fx:id="canvas" />
+                    </children>
+                </VBox>
             </children>
         </VBox>
     </children>

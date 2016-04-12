@@ -1,14 +1,13 @@
 package game;
 
+import game.resources.Global;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.awt.*;
@@ -18,10 +17,10 @@ import java.util.Map;
 /**
  * Created by niklasmh on 10.04.16.
  */
-public class Game extends Application {
+public class Game extends Application implements Global {
 
     public static HashMap<String, String> screens = new HashMap<>();
-    public static Point size = new Point(640, 480); // Default ratio for game
+    public final static Point size = new Point(640, 480); // Default ratio for game
     public static Parent sceneRoot;
 
     @Override
@@ -71,7 +70,7 @@ public class Game extends Application {
          */
         new AnimationTimer() {
             public void handle(long currentTime) {
-                // Game loop
+                // Main game loop
                 updateWindowSize(stg, scene);
             }
         }.start();
@@ -90,18 +89,14 @@ public class Game extends Application {
         double scrH = stg.getHeight();
         double ratio = scrW / scrH;
         double minRatio = size.getX() / size.getY();
+        double scale = (minRatio > ratio ? scrH / size.getY() : scrW / size.getX());
 
-        if (minRatio > ratio) {
-            sceneRoot.setScaleX(scrH / size.getY());
-            sceneRoot.setScaleY(scrH / size.getY());
-            sceneRoot.setTranslateX((scrW - size.getX()) / 2);
-            sceneRoot.setTranslateY((scrH - size.getY() - top) / 2);
-        } else {
-            sceneRoot.setScaleX(scrW / size.getX());
-            sceneRoot.setScaleY(scrW / size.getX());
-            sceneRoot.setTranslateX((scrW - size.getX()) / 2);
-            sceneRoot.setTranslateY((scrH - size.getY() - top) / 2);
-        }
+        sceneRoot.setScaleX(scale);
+        sceneRoot.setScaleY(scale);
+        sceneRoot.setTranslateX((scrW - size.getX()) / 2);
+        sceneRoot.setTranslateY((scrH - size.getY() - top) / 2);
+
+        windowSize.setLocation(stg.getWidth() / scale, (stg.getHeight() - top) / scale);
     }
 
     public static void main(String[] args) {

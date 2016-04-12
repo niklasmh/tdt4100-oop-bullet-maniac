@@ -15,6 +15,7 @@ public class ScreenController extends StackPane {
      * The screens are saved in a hash map to be easily accessed.
      */
     private HashMap<String, Node> screens = new HashMap<>();
+    private String currentId;
 
     /**
      * Extends StackPane, so needs to call super to call StackPanes' constructor.
@@ -41,6 +42,15 @@ public class ScreenController extends StackPane {
      */
     public Node getScreen(String id) {
         return screens.get(id);
+    }
+
+    /**
+     * Returns the id of the current screen.
+     *
+     * @return = the string of current id.
+     */
+    public String getScreen() {
+        return currentId;
     }
 
     /**
@@ -78,6 +88,7 @@ public class ScreenController extends StackPane {
             }
 
             getChildren().add(0, screens.get(id));
+            currentId = id;
 
             return true;
         }
