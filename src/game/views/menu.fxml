@@ -15,16 +15,16 @@
     </rowConstraints>
     <children>
         <VBox alignment="CENTER">
-            <!--<VBox alignment="TOP_RIGHT" styleClass="window-border" spacing="16">
+            <VBox alignment="TOP_CENTER" spacing="16">
                 <children>
-                    <Button onAction="#windowClose" text="X" translateX="-16" translateY="16" />
+                    <!--<Button onAction="#windowClose" text="X" translateX="-16" translateY="16" />
                     <Button onAction="#windowMax" text="[ ]" translateX="-16" translateY="16" />
-                    <Button onAction="#windowMin" text="_" translateX="-16" translateY="16" />
+                    <Button onAction="#windowMin" text="_" translateX="-16" translateY="16" />-->
+                    <Label styleClass="game-title">Bullet Maniac!</Label>
                 </children>
-            </VBox>-->
-            <VBox alignment="CENTER" spacing="10">
+            </VBox>
+            <VBox alignment="CENTER" style="-fx-padding: 20" spacing="10">
                 <children>
-                    <Label>Bullet Maniac!</Label>
                     <Button onAction="#goToGame" styleClass="primary" text="Play" />
                     <Button onAction="#goToCredit" text="Creds" />
                     <Button onAction="#windowClose" styleClass="danger" text="Exit" />
