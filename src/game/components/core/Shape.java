@@ -5,7 +5,7 @@ import game.components.core.GameNode;
 /**
  * Created by niklasmh on 13.04.16.
  */
-public class Shape extends GameNode {
+public abstract class Shape extends GameNode {
     private double scale;
     private boolean picture;
 

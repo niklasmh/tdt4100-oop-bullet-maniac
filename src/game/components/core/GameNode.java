@@ -3,7 +3,7 @@ package game.components.core;
 /**
  * Created by niklasmh on 12.04.16.
  */
-public class GameNode extends PolarPoint {
+public abstract class GameNode extends PolarPoint {
     double rotation;
 
     public GameNode (double x, double y) {

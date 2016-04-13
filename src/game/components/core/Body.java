@@ -1,7 +1,5 @@
 package game.components.core;
 
-import game.components.shapes.Shape;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
