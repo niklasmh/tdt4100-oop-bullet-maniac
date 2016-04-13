@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,21 @@ public class Game extends Application implements Global {
         scene.getStylesheets().add("game/resources/main.css");
         scene.widthProperty().addListener(obVal -> updateWindowSize(stg, scene));
         scene.heightProperty().addListener(obVal -> updateWindowSize(stg, scene));
+
+
+
+        scene.setOnKeyPressed(evt -> {
+            if (!keyCodes.contains(evt.getCode().toString())) {
+                System.out.println("Key pressed " + evt.getCode());
+                keyCodes.add(evt.getCode().toString());
+            }
+        });
+        scene.setOnKeyReleased(evt -> {
+            if (keyCodes.contains(evt.getCode().toString())) {
+                System.out.println("Key released " + evt.getCode());
+                keyCodes.removeAll(Collections.singleton(evt.getCode().toString()));
+            }
+        });
 
         stg.setScene(scene);
         sceneRoot = scene.getRoot();
