@@ -1,6 +1,6 @@
 package game.components.objects;
 
-import game.components.GameNode;
+import game.components.core.GameNode;
 
 /**
  * Created by niklasmh on 13.04.16.

@@ -1,6 +1,6 @@
 package game.components.objects;
 
-import game.components.Body;
+import game.components.core.Body;
 
 /**
  * Created by niklasmh on 12.04.16.
