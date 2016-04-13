@@ -10,4 +10,5 @@ import java.util.List;
 public interface Global {
     Point windowSize = new Point(640, 480);
     List<String> keyCodes = new ArrayList<>();
+    List<String> keyPressedCodes = new ArrayList<>();
 }

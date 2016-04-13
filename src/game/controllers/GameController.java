@@ -1,8 +1,8 @@
 package game.controllers;
 
 import game.CurrentScreen;
-import game.components.Player;
-import game.components.ViewPoint;
+import game.components.objects.Player;
+import game.components.objects.ViewPoint;
 import game.resources.Global;
 import game.ScreenController;
 
@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 /**
@@ -36,7 +37,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
         ctx = canvas.getGraphicsContext2D();
         showMenu(false);
 
-        viewPoint = new ViewPoint(100, 100);
+        viewPoint = new ViewPoint(0, 0);
         Player player = new Player(100, 100);
 
         new AnimationTimer() {
@@ -48,19 +49,19 @@ public class GameController implements Initializable, CurrentScreen, Global {
                      * Game logic and controllers.
                      */
                     if (isKeyDown("LEFT")) {
-                        player.increaseX(-1);
-                    }
-
-                    if (isKeyDown("RIGHT")) {
                         player.increaseX(1);
                     }
 
+                    if (isKeyDown("RIGHT")) {
+                        player.increaseX(-1);
+                    }
+
                     if (isKeyDown("UP")) {
-                        player.increaseY(-1);
+                        player.increaseY(1);
                     }
 
                     if (isKeyDown("DOWN")) {
-                        player.increaseY(1);
+                        player.increaseY(-1);
                     }
 
                     /**
@@ -75,11 +76,16 @@ public class GameController implements Initializable, CurrentScreen, Global {
                     /**
                      * Drawing the background.
                      */
+                    ctx.setFill(Color.LIGHTGRAY);
+                    ctx.setStroke(Color.DARKGRAY);
+                    ctx.setLineWidth(10);
+                    ctx.fillOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
 
                     /**
                      * Drawing the player.
                      */
-                    ctx.strokeOval(vpx(player.getX()) - vps(20) / 2, vpy(player.getY()) - vps(20) / 2, vps(20), vps(20));
+                    ctx.strokeOval(vpx(player.getX(), player.getY()) - vps(20) / 2, vpy(player.getX(), player.getY()) - vps(20) / 2, vps(20), vps(20));
+                    ctx.strokeLine(vpx(0, 0), vpy(0, 0), vpx(player.getX(), player.getY()), vpy(player.getX(), player.getY()));
                 }
             }
         }.start();
@@ -97,18 +103,28 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * Convert all points relative to ViewPoint.
      * VPX = View Point X
      */
-    public double vpx (double x) {
-        return x - this.viewPoint.getX();
+    public double vpx (double x, double y) {
+        double posX = y * Math.sin(x);
+        return posX - this.viewPoint.getX() + canvas.getWidth() / 2;
     }
 
     /**
      * Convert all points relative to ViewPoint.
      * VPX = View Point X
      */
-    public double vpy (double y) {
-        return y - this.viewPoint.getY();
+    public double vpy (double x, double y) {
+        double posY = y * Math.cos(x);
+        return posY - this.viewPoint.getY() + canvas.getHeight() / 2;
     }
 
+    /**
+     * Checks different key combinations. Just to make the
+     * game more modular and possible to play with
+     * different key combinations.
+     *
+     * @param key = string describing the key action
+     * @return = true if key combination is true
+     */
     public boolean isKeyDown (String key) {
         switch (key) {
             case "LEFT":
@@ -122,6 +138,21 @@ public class GameController implements Initializable, CurrentScreen, Global {
             default:
                 return false;
         }
+    }
+
+    /**
+     * Removes key pressed from another list when noticed.
+     * Nice to use when key only should be used one time in the loop.
+     *
+     * @param keyCode = string, like "LEFT", "A" etc...
+     */
+    public boolean removeKeyPressed (String keyCode) {
+        if (keyPressedCodes.contains(keyCode)) {
+            keyPressedCodes.removeAll(Collections.singleton(keyCode));
+            return true;
+        }
+
+        return false;
     }
 
     /**

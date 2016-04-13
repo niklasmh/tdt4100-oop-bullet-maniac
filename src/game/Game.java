@@ -46,19 +46,17 @@ public class Game extends Application implements Global {
         scene.widthProperty().addListener(obVal -> updateWindowSize(stg, scene));
         scene.heightProperty().addListener(obVal -> updateWindowSize(stg, scene));
 
-
-
         scene.setOnKeyPressed(evt -> {
             if (!keyCodes.contains(evt.getCode().toString())) {
                 System.out.println("Key pressed " + evt.getCode());
                 keyCodes.add(evt.getCode().toString());
+                keyPressedCodes.add(evt.getCode().toString());
             }
         });
+
         scene.setOnKeyReleased(evt -> {
-            if (keyCodes.contains(evt.getCode().toString())) {
-                System.out.println("Key released " + evt.getCode());
-                keyCodes.removeAll(Collections.singleton(evt.getCode().toString()));
-            }
+            keyCodes.removeAll(Collections.singleton(evt.getCode().toString()));
+            keyPressedCodes.removeAll(Collections.singleton(evt.getCode().toString()));
         });
 
         stg.setScene(scene);

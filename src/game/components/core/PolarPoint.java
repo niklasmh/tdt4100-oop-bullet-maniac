@@ -1,4 +1,4 @@
-package game.components;
+package game.components.core;
 
 /**
  * Created by niklasmh on 12.04.16.

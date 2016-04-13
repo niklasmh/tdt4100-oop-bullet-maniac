@@ -1,4 +1,6 @@
-package game.components;
+package game.components.objects;
+
+import game.components.GameNode;
 
 /**
  * Created by niklasmh on 13.04.16.

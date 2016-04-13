@@ -1,9 +1,11 @@
-package game.components;
+package game.components.objects;
+
+import game.components.Body;
 
 /**
  * Created by niklasmh on 12.04.16.
  */
-public class Player extends GameNode {
+public class Player extends Body {
 
     public Player () {
         super(100, 0);
