@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.layout.HBox?>
 <GridPane id="root" styleClass="game" fx:controller="game.controllers.GameController"
           xmlns:fx="http://javafx.com/fxml">
     <columnConstraints>
