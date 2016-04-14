@@ -11,15 +11,18 @@ public class Circle extends Shape {
     public Circle (double x, double y, double r) {
         super(x, y);
         this.radius = r;
+        this.setType("Circle");
     }
 
     public Circle (double x, double y, double r, double rot) {
         super(x, y, rot);
         this.radius = r;
+        this.setType("Circle");
     }
 
     public Circle (double x, double y, double r, double rot, double scale) {
         super(x, y, rot, scale);
         this.radius = r;
+        this.setType("Circle");
     }
 }

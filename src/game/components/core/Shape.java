@@ -8,6 +8,7 @@ import game.components.core.GameNode;
 public abstract class Shape extends GameNode {
     private double scale;
     private boolean picture;
+    private String type;
 
     public Shape (double x, double y) {
         super(x, y);
@@ -22,5 +23,17 @@ public abstract class Shape extends GameNode {
     public Shape (double x, double y, double rot, double scale) {
         super(x, y, rot);
         this.scale = scale;
+    }
+
+    public String getType () {
+        return this.type;
+    }
+
+    public void setType (String type) {
+        this.type = type;
+    }
+
+    public double getScale () {
+        return this.scale;
     }
 }

@@ -1,25 +1,40 @@
 package game.components.core.shapes;
 
-import game.components.core.Shape;
+import game.components.core.LocalPoint;
 
 /**
  * Created by niklasmh on 13.04.16.
  */
-public class Rectangle extends Shape {
-    private double radius;
+public class Rectangle extends Polygon {
+    private double w, h;
 
-    public Rectangle (double x, double y, double r) {
-        super(x, y);
-        this.radius = r;
+    public Rectangle (double x, double y, double w, double h) {
+        super(x, y,
+                new LocalPoint(x + w, y),
+                new LocalPoint(x + w, y + h),
+                new LocalPoint(x, y + h));
+        this.w = w;
+        this.h = h;
+        this.setType("Rectangle");
     }
 
-    public Rectangle (double x, double y, double r, double rot) {
-        super(x, y, rot);
-        this.radius = r;
+    public Rectangle (double x, double y, double w, double h, double rot) {
+        super(x, y, rot,
+                new LocalPoint(x + w, y),
+                new LocalPoint(x + w, y + h),
+                new LocalPoint(x, y + h));
+        this.w = w;
+        this.h = h;
+        this.setType("Rectangle");
     }
 
-    public Rectangle (double x, double y, double r, double rot, double scale) {
-        super(x, y, rot, scale);
-        this.radius = r;
+    public Rectangle (double x, double y, double w, double h, double rot, double scale) {
+        super(x, y, rot, scale,
+                new LocalPoint(x + w, y),
+                new LocalPoint(x + w, y + h),
+                new LocalPoint(x, y + h));
+        this.w = w;
+        this.h = h;
+        this.setType("Rectangle");
     }
 }

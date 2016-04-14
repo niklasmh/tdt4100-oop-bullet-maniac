@@ -22,4 +22,8 @@ public class Body extends GameNode {
     public void addShape (Shape... shapes) {
         Collections.addAll(this.shapes, shapes);
     }
+
+    public List<Shape> getShapes () {
+        return this.shapes;
+    }
 }
