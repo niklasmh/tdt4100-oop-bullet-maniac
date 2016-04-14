@@ -37,4 +37,12 @@ public class Rectangle extends Polygon {
         this.h = h;
         this.setType("Rectangle");
     }
+
+    public double getW () {
+        return this.w;
+    }
+
+    public double getH () {
+        return this.h;
+    }
 }
