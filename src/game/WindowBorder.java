@@ -1,4 +1,4 @@
-package game.resources;
+package game;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

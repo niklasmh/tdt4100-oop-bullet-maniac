@@ -7,7 +7,7 @@ import game.components.core.shapes.Circle;
 import game.components.core.shapes.Rectangle;
 import game.components.objects.Player;
 import game.components.objects.ViewPoint;
-import game.resources.Global;
+import game.Global;
 import game.ScreenController;
 
 import javafx.animation.AnimationTimer;

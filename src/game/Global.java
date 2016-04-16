@@ -1,4 +1,4 @@
-package game.resources;
+package game;
 
 import java.awt.Point;
 import java.util.ArrayList;

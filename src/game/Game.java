@@ -1,6 +1,6 @@
 package game;
 
-import game.resources.Global;
+import game.Global;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
