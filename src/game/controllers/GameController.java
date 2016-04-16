@@ -1,6 +1,10 @@
 package game.controllers;
 
 import game.CurrentScreen;
+import game.components.core.Body;
+import game.components.core.Shape;
+import game.components.core.shapes.Circle;
+import game.components.core.shapes.Rectangle;
 import game.components.objects.Player;
 import game.components.objects.ViewPoint;
 import game.resources.Global;
@@ -84,11 +88,99 @@ public class GameController implements Initializable, CurrentScreen, Global {
                     /**
                      * Drawing the player.
                      */
-                    ctx.strokeOval(vpx(player.getX(), player.getY()) - vps(20) / 2, vpy(player.getX(), player.getY()) - vps(20) / 2, vps(20), vps(20));
-                    ctx.strokeLine(vpx(0, 0), vpy(0, 0), vpx(player.getX(), player.getY()), vpy(player.getX(), player.getY()));
+                    ctx.setStroke(Color.BLACK);
+                    ctx.setLineWidth(2);
+                    drawBody(ctx, player, true);
+
+                    ctx.fill();
+                    ctx.stroke();
                 }
             }
         }.start();
+    }
+
+    /**
+     * Draw shape from body.
+     */
+    public void drawBody (Body body, boolean debugDraw) {
+        drawBody(this.ctx, body, debugDraw);
+    }
+
+    /**
+     * Draw shape from body.
+     */
+    public void drawBody (Body body) {
+        drawBody(this.ctx, body, false);
+    }
+
+    /**
+     * Draw shape from body.
+     */
+    public void drawBody (GraphicsContext gc, Body body) {
+        drawBody(gc, body, false);
+    }
+
+    /**
+     * Draw shape from body into specified canvas.
+     */
+    public void drawBody (GraphicsContext gc, Body body, boolean debugDraw) {
+        double gx = body.getX();
+        double gy = body.getY();
+        double x, y, r, w, h;
+
+        for (Shape shape : body.getShapes()) {
+            x = shape.getX() + gx;
+            y = shape.getY() + gy;
+
+            switch (shape.getType()) {
+                case "Circle":
+                    Circle circ = (Circle) shape;
+                    r = circ.getCircleRadius();
+
+                    if (debug) {
+                        gc.strokeOval(vpx(x, y) - vps(r) / 2, vpy(x, y) - vps(r) / 2, vps(r), vps(r));
+                    } else {
+                        gc.fillOval(vpx(x, y) - vps(r) / 2, vpy(x, y) - vps(r) / 2, vps(r), vps(r));
+                    }
+
+                    break;
+                case "Rectangle":
+                    Rectangle rect = (Rectangle) shape;
+                    w = rect.getW();
+                    h = rect.getH();
+
+                    if (debug) {
+                        gc.strokeLine(vpx(x, y), vpy(x + w, y), vpx(x + w, y), vpy(x + w, y + h));
+                        gc.strokeLine(vpx(x + w, y), vpy(x + w, y + h), vpx(x + w, y + h), vpy(x, y + h));
+                        gc.strokeLine(vpx(x + w, y + h), vpy(x, y + h), vpx(x, y + h), vpy(x, y));
+                        gc.strokeLine(vpx(x, y + h), vpy(x, y), vpx(x, y), vpy(x + w, y));
+                    } else {
+                        double[] xP = new double[] {
+                                vpx(x, y),
+                                vpx(x + w, y),
+                                vpx(x + w, y + h),
+                                vpx(x, y + h)
+                        };
+
+                        double[] yP = new double[] {
+                                vpy(x, y),
+                                vpy(x + w, y),
+                                vpy(x + w, y + h),
+                                vpy(x, y + h)
+                        };
+
+                        gc.fillPolygon(xP, yP, 4);
+                    }
+
+                    break;
+            }
+        }
+
+        if (debug) {
+            gc.setStroke(Color.BLUE);
+            gc.setLineWidth(2);
+            gc.strokeOval(vpx(gx, gy) - vps(1) / 2, vpy(gx, gy) - vps(1) / 2, vps(1), vps(1));
+        }
     }
 
     /**
