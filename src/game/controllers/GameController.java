@@ -3,7 +3,7 @@ package game.controllers;
 import game.CurrentScreen;
 import game.components.objects.Player;
 import game.components.objects.ViewPoint;
-import game.resources.Global;
+import game.Global;
 import game.ScreenController;
 
 import javafx.animation.AnimationTimer;
