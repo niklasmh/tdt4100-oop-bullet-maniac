@@ -2,8 +2,10 @@ package game.controllers;
 
 import game.CurrentScreen;
 import game.components.core.Body;
+import game.components.core.LocalPoint;
 import game.components.core.Shape;
 import game.components.core.shapes.Circle;
+import game.components.core.shapes.Polygon;
 import game.components.core.shapes.Rectangle;
 import game.components.objects.Player;
 import game.components.objects.ViewPoint;
@@ -22,6 +24,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -111,10 +114,11 @@ public class GameController implements Initializable, CurrentScreen, Global {
                          */
                         ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(2);
+                        drawBody(ctx, player, false);
                         drawBody(ctx, player, true);
 
-                        ctx.fill();
-                        ctx.stroke();
+                        //ctx.fill();
+                        //ctx.stroke();
                     }
                 }
             }
@@ -124,45 +128,46 @@ public class GameController implements Initializable, CurrentScreen, Global {
     /**
      * Draw shape from body.
      */
-    public void drawBody (Body body, boolean debugDraw) {
+    private void drawBody (Body body, boolean debugDraw) {
         drawBody(this.ctx, body, debugDraw);
     }
 
     /**
      * Draw shape from body.
      */
-    public void drawBody (Body body) {
+    private void drawBody (Body body) {
         drawBody(this.ctx, body, false);
     }
 
     /**
      * Draw shape from body.
      */
-    public void drawBody (GraphicsContext gc, Body body) {
+    private void drawBody (GraphicsContext gc, Body body) {
         drawBody(gc, body, false);
     }
 
     /**
      * Draw shape from body into specified canvas.
      */
-    public void drawBody (GraphicsContext gc, Body body, boolean debugDraw) {
+    private void drawBody (GraphicsContext gc, Body body, boolean debugDraw) {
         double gx = body.getX();
         double gy = body.getY();
         double x, y, r, w, h;
+        double[] xP, yP;
 
         for (Shape shape : body.getShapes()) {
-            x = shape.getX() + gx;
-            y = shape.getY() + gy;
+            x = shape.getX();
+            y = shape.getY();
 
             switch (shape.getType()) {
                 case "Circle":
                     Circle circ = (Circle) shape;
                     r = circ.getCircleRadius();
 
-                    if (debug) {
-                        gc.strokeOval(vpx(x, y) - vps(r) / 2, vpy(x, y) - vps(r) / 2, vps(r), vps(r));
+                    if (debugDraw) {
+                        gc.strokeOval(lvpx(gx, gy, x, y) - vps(r) / 2, lvpy(gx, gy, x, y) - vps(r) / 2, vps(r), vps(r));
                     } else {
-                        gc.fillOval(vpx(x, y) - vps(r) / 2, vpy(x, y) - vps(r) / 2, vps(r), vps(r));
+                        gc.fillOval(lvpx(gx, gy, x, y) - vps(r) / 2, lvpy(gx, gy, x, y) - vps(r) / 2, vps(r), vps(r));
                     }
 
                     break;
@@ -171,27 +176,45 @@ public class GameController implements Initializable, CurrentScreen, Global {
                     w = rect.getW();
                     h = rect.getH();
 
-                    if (debug) {
-                        gc.strokeLine(vpx(x, y), vpy(x + w, y), vpx(x + w, y), vpy(x + w, y + h));
-                        gc.strokeLine(vpx(x + w, y), vpy(x + w, y + h), vpx(x + w, y + h), vpy(x, y + h));
-                        gc.strokeLine(vpx(x + w, y + h), vpy(x, y + h), vpx(x, y + h), vpy(x, y));
-                        gc.strokeLine(vpx(x, y + h), vpy(x, y), vpx(x, y), vpy(x + w, y));
+                    xP = new double[] {
+                            lvpx(gx, gy, x, y),
+                            lvpx(gx, gy, x + w, y),
+                            lvpx(gx, gy, x + w, y + h),
+                            lvpx(gx, gy, x, y + h)
+                    };
+
+                    yP = new double[] {
+                            lvpy(gx, gy, x, y),
+                            lvpy(gx, gy, x + w, y),
+                            lvpy(gx, gy, x + w, y + h),
+                            lvpy(gx, gy, x, y + h)
+                    };
+
+                    if (debugDraw) {
+                        gc.strokePolygon(xP, yP, 4);
                     } else {
-                        double[] xP = new double[] {
-                                vpx(x, y),
-                                vpx(x + w, y),
-                                vpx(x + w, y + h),
-                                vpx(x, y + h)
-                        };
-
-                        double[] yP = new double[] {
-                                vpy(x, y),
-                                vpy(x + w, y),
-                                vpy(x + w, y + h),
-                                vpy(x, y + h)
-                        };
-
                         gc.fillPolygon(xP, yP, 4);
+                    }
+
+                    break;
+                case "Polygon":
+                    Polygon poly = (Polygon) shape;
+                    List<LocalPoint> points = poly.getPoints();
+
+                    xP = new double[points.size()];
+                    for (int i = 0; i < xP.length; i++) {
+                        xP[i] = lvpx(gx, gy, points.get(i).getX(), points.get(i).getY());
+                    }
+
+                    yP = new double[points.size()];
+                    for (int i = 0; i < yP.length; i++) {
+                        yP[i] = lvpy(gx, gy, points.get(i).getX(), points.get(i).getY());
+                    }
+
+                    if (debugDraw) {
+                        gc.strokePolygon(xP, yP, xP.length);
+                    } else {
+                        gc.fillPolygon(xP, yP, xP.length);
                     }
 
                     break;
@@ -201,15 +224,43 @@ public class GameController implements Initializable, CurrentScreen, Global {
         if (debug) {
             gc.setStroke(Color.BLUE);
             gc.setLineWidth(2);
-            gc.strokeOval(vpx(gx, gy) - vps(1) / 2, vpy(gx, gy) - vps(1) / 2, vps(1), vps(1));
+            gc.strokeOval(vpx(gx, gy) - .5, vpy(gx, gy) - .5, 1, 1);
         }
+    }
+
+    /**
+     * Returns the local x coordinate based on the global and local shapes.
+     *
+     * @param gx = Global X
+     * @param gy = Global Y
+     * @param x = Local X
+     * @param y = Local Y
+     * @return = x in double
+     */
+    private double lvpx (double gx, double gy, double x, double y) {
+        double lrad = Math.atan2(y, x);
+        return vpx(gx, gy) + Math.sqrt(x * x + y * y) * Math.sin(gx + lrad);
+    }
+
+    /**
+     * Returns the local y coordinate based on the global and local shapes.
+     *
+     * @param gx = Global X
+     * @param gy = Global Y
+     * @param x = Local X
+     * @param y = Local Y
+     * @return = y in double
+     */
+    private double lvpy (double gx, double gy, double x, double y) {
+        double lrad = Math.atan2(y, x);
+        return vpy(gx, gy) + Math.sqrt(x * x + y * y) * Math.cos(gx + lrad);
     }
 
     /**
      * Convert scaling to right scale relative to screen.
      * VPX = View Point Scale
      */
-    public double vps(double val) {
+    private double vps(double val) {
         return val * this.zoom;
     }
 
@@ -217,7 +268,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * Convert all points relative to ViewPoint.
      * VPX = View Point X
      */
-    public double vpx (double x, double y) {
+    private double vpx (double x, double y) {
         double posX = y * Math.sin(x);
         return posX - this.viewPoint.getX() + canvas.getWidth() / 2;
     }
@@ -226,7 +277,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * Convert all points relative to ViewPoint.
      * VPX = View Point X
      */
-    public double vpy (double x, double y) {
+    private double vpy (double x, double y) {
         double posY = y * Math.cos(x);
         return posY - this.viewPoint.getY() + canvas.getHeight() / 2;
     }
@@ -239,7 +290,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * @param key = string describing the key action
      * @return = true if key combination is true
      */
-    public boolean isKeyDown (String key) {
+    private boolean isKeyDown (String key) {
         switch (key) {
             case "LEFT":
                 return keyCodes.contains("LEFT") || keyCodes.contains("A");
@@ -260,7 +311,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * @param key
      * @return
      */
-    public boolean isKeyPressed (String key) {
+    private boolean isKeyPressed (String key) {
         boolean pressed = keyPressedCodes.contains(key);
         keyPressedCodes.removeAll(Collections.singleton(key));
         return pressed;
@@ -269,7 +320,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
     /**
      * Remove all keys pressed.
      */
-    public void removeKeysPressed () {
+    private void removeKeysPressed () {
         keyPressedCodes.clear();
     }
 
@@ -279,7 +330,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      *
      * @param keyCode = string, like "LEFT", "A" etc...
      */
-    public boolean removeKeyPressed (String keyCode) {
+    private boolean removeKeyPressed (String keyCode) {
         if (keyPressedCodes.contains(keyCode)) {
             keyPressedCodes.removeAll(Collections.singleton(keyCode));
             return true;
@@ -302,7 +353,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
         goToMainMenu();
     }
 
-    public void goToMainMenu () {
+    private void goToMainMenu () {
         this.resetGame();
         this.scrCtrl.setScreen("menu");
     }
@@ -312,16 +363,16 @@ public class GameController implements Initializable, CurrentScreen, Global {
         toggleMenu();
     }
 
-    public void resetGame () {
+    private void resetGame () {
         showMenu(false);
         ctx.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
     }
 
-    public void toggleMenu () {
+    private void toggleMenu () {
         showMenu(!this.showMenu);
     }
 
-    public void showMenu () {
+    private void showMenu () {
         showMenu(true);
     }
 
@@ -331,7 +382,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      *
      * @param show = boolean for showing or hiding
      */
-    public void showMenu (boolean show) {
+    private void showMenu (boolean show) {
         this.showMenu = show;
 
         gameMenu.setVisible(show);

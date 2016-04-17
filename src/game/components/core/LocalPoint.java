@@ -25,11 +25,11 @@ public class LocalPoint {
         this.y = y;
     }
 
-    protected double getX () {
+    public double getX () {
         return this.x;
     }
 
-    protected double getY () {
+    public double getY () {
         return this.y;
     }
 }
