@@ -7,6 +7,8 @@ import game.components.core.Shape;
 import game.components.core.shapes.Circle;
 import game.components.core.shapes.Polygon;
 import game.components.core.shapes.Rectangle;
+import game.components.objects.Element;
+import game.components.objects.Planet;
 import game.components.objects.Player;
 import game.components.objects.ViewPoint;
 import game.Global;
@@ -44,8 +46,10 @@ public class GameController implements Initializable, CurrentScreen, Global {
         ctx = canvas.getGraphicsContext2D();
         showMenu(false);
 
-        viewPoint = new ViewPoint(100, Math.PI);
-        Player player = new Player(100, Math.PI);
+        viewPoint = new ViewPoint(100, 0);
+        Player player = new Player(100, 0);
+        Planet planet = new Planet();
+        Element element = new Element();
 
         new AnimationTimer() {
             @Override
@@ -103,7 +107,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         /**
                          * Movements and coordinates.
                          */
-                        viewPoint.setPosition(player.getY(), player.getX());
+                        viewPoint.setPosition(player.getY(), player.getX() + Math.PI);
 
                         /**
                          * First clearing the stage for the next frame.
@@ -120,12 +124,20 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         ctx.setFill(Color.LIGHTGRAY);
                         ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(1);
-                        ctx.fillOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
-                        ctx.strokeOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
+                        drawBody(ctx, planet, false);
+                        drawBody(ctx, planet, true);
+
+                        ctx.setFill(Color.RED);
+                        ctx.setStroke(Color.BLACK);
+                        ctx.setLineWidth(1);
+                        drawBody(ctx, element, false);
+                        drawBody(ctx, element, true);
 
                         /**
                          * Drawing the player.
                          */
+                        ctx.setFill(Color.LIME);
+                        ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(1);
                         drawBody(ctx, player, false);
                         drawBody(ctx, player, true);
@@ -166,6 +178,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
         double[] xP, yP;
 
         if (debugDraw) {
+            gc.setLineWidth(1);
             gc.setStroke(Color.BLUE);
         }
 
@@ -238,7 +251,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
         if (debug) {
             gc.setStroke(Color.BLUE);
             gc.setLineWidth(1);
-            gc.strokeOval(vpx(gx, gy) - .5, vpy(gx, gy) - .5, 1, 1);
+            gc.strokeOval(lvpx(gx, gy, 0, 0) - .5, lvpy(gx, gy, 0, 0) - .5, 1, 1);
         }
     }
 
@@ -252,7 +265,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * @return = x in double
      */
     private double lvpx (double gx, double gy, double x, double y) {
-        double lrad = Math.atan2(y, x);
+        double lrad = Math.atan2(y, x) - this.viewPoint.getX();
         return vpx(gx, gy) + vps(Math.sqrt(x * x + y * y) * Math.sin(gx + lrad));
     }
 
@@ -266,7 +279,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * @return = y in double
      */
     private double lvpy (double gx, double gy, double x, double y) {
-        double lrad = Math.atan2(y, x);
+        double lrad = Math.atan2(y, x) - this.viewPoint.getX();
         return vpy(gx, gy) + vps(Math.sqrt(x * x + y * y) * Math.cos(gx + lrad));
     }
 
@@ -283,7 +296,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * VPX = View Point X
      */
     private double vpx (double x, double y) {
-        double posX = vps(y * Math.sin(x) - this.viewPoint.getY() * Math.sin(this.viewPoint.getX()));
+        double posX = vps(y * Math.sin(x - this.viewPoint.getX()));
         return posX + canvas.getWidth() / 2;
     }
 
@@ -292,7 +305,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * VPX = View Point X
      */
     private double vpy (double x, double y) {
-        double posY = vps(y * Math.cos(x) - this.viewPoint.getY() * Math.cos(this.viewPoint.getX()));
+        double posY = vps(y * Math.cos(x - this.viewPoint.getX()) + this.viewPoint.getY());
         return posY + canvas.getHeight() / 2;
     }
 

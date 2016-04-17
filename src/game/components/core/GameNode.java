@@ -69,7 +69,6 @@ public abstract class GameNode extends PolarPoint {
      */
     public void increaseX (double x) {
         setAngle(getAngle() + x / getRadius());
-        System.out.println(getAngle());
     }
 
     /**
@@ -79,6 +78,5 @@ public abstract class GameNode extends PolarPoint {
      */
     public void increaseY (double y) {
         setRadius(getRadius() + y);
-        System.out.println(getRadius());
     }
 }

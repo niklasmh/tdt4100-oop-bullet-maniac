@@ -39,6 +39,12 @@ public class Polygon extends Shape {
         Collections.addAll(this.points, points);
     }
 
+    public void addPoints (List<LocalPoint> points) {
+        for (int i = 0; i < points.size(); i++) {
+            this.points.add(points.get(i));
+        }
+    }
+
     public void addPoint (LocalPoint point) {
         this.points.add(point);
     }
