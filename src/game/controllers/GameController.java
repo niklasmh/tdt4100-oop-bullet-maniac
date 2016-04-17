@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -47,53 +48,74 @@ public class GameController implements Initializable, CurrentScreen, Global {
         new AnimationTimer() {
             @Override
             public void handle (long time) {
-                if (scrCtrl.getScreen().equals("game") && !showMenu) {
+                if (scrCtrl.getScreen().equals("game")) {
+                    if (showMenu) {
+                        if (isKeyPressed("P")) {
+                            showMenu(false);
+                        }
 
-                    /**
-                     * Game logic and controllers.
-                     */
-                    if (isKeyDown("LEFT")) {
-                        player.increaseX(1);
+                        if (isKeyPressed("BACK_SPACE")) {
+                            goToMainMenu();
+                        }
+
+                        removeKeysPressed();
+                    } else {
+                        /**
+                         * Game logic and controllers.
+                         */
+                        if (isKeyDown("LEFT")) {
+                            player.increaseX(1);
+                        }
+
+                        if (isKeyDown("RIGHT")) {
+                            player.increaseX(-1);
+                        }
+
+                        if (isKeyDown("UP")) {
+                            player.increaseY(1);
+                        }
+
+                        if (isKeyDown("DOWN")) {
+                            player.increaseY(-1);
+                        }
+
+                        if (isKeyPressed("P")) {
+                            showMenu();
+                        }
+
+                        if (isKeyPressed("BACK_SPACE")) {
+                            goToMainMenu();
+                        }
+
+                        removeKeysPressed();
+
+                        /**
+                         * First clearing the stage for the next frame.
+                         */
+                        canvas.setWidth(windowSize.getX());
+                        canvas.setHeight(windowSize.getY());
+                        ctx.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                        ctx.setFill(Color.GRAY);
+                        ctx.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                        /**
+                         * Drawing the background.
+                         */
+                        ctx.setFill(Color.LIGHTGRAY);
+                        ctx.setStroke(Color.DARKGRAY);
+                        ctx.setLineWidth(10);
+                        ctx.fillOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
+
+                        /**
+                         * Drawing the player.
+                         */
+                        ctx.setStroke(Color.BLACK);
+                        ctx.setLineWidth(2);
+                        drawBody(ctx, player, true);
+
+                        ctx.fill();
+                        ctx.stroke();
                     }
-
-                    if (isKeyDown("RIGHT")) {
-                        player.increaseX(-1);
-                    }
-
-                    if (isKeyDown("UP")) {
-                        player.increaseY(1);
-                    }
-
-                    if (isKeyDown("DOWN")) {
-                        player.increaseY(-1);
-                    }
-
-                    /**
-                     * First clearing the stage for the next frame.
-                     */
-                    canvas.setWidth(windowSize.getX());
-                    canvas.setHeight(windowSize.getY());
-                    ctx.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                    ctx.setFill(Color.GRAY);
-                    ctx.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-                    /**
-                     * Drawing the background.
-                     */
-                    ctx.setFill(Color.LIGHTGRAY);
-                    ctx.setStroke(Color.DARKGRAY);
-                    ctx.setLineWidth(10);
-                    ctx.fillOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
-
-                    /**
-                     * Drawing the player.
-                     */
-                    ctx.setStroke(Color.BLACK);
-                    ctx.setLineWidth(2);
-                    drawBody(ctx, player, true);
-
-                    ctx.fill();
-                    ctx.stroke();
                 }
             }
         }.start();
@@ -233,6 +255,25 @@ public class GameController implements Initializable, CurrentScreen, Global {
     }
 
     /**
+     * Checks if key is pressed.
+     *
+     * @param key
+     * @return
+     */
+    public boolean isKeyPressed (String key) {
+        boolean pressed = keyPressedCodes.contains(key);
+        keyPressedCodes.removeAll(Collections.singleton(key));
+        return pressed;
+    }
+
+    /**
+     * Remove all keys pressed.
+     */
+    public void removeKeysPressed () {
+        keyPressedCodes.clear();
+    }
+
+    /**
      * Removes key pressed from another list when noticed.
      * Nice to use when key only should be used one time in the loop.
      *
@@ -258,6 +299,10 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
     @FXML
     public void goToMainMenu (ActionEvent evt) {
+        goToMainMenu();
+    }
+
+    public void goToMainMenu () {
         this.resetGame();
         this.scrCtrl.setScreen("menu");
     }
@@ -281,7 +326,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
     }
 
     /**
-     * Shows or hides menu in the game. his will also
+     * Shows or hides menu in the game. This will also
      * control the timer in the game.
      *
      * @param show = boolean for showing or hiding
