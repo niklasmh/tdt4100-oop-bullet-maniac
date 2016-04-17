@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,22 +30,22 @@ import java.util.ResourceBundle;
  * Created by niklasmh on 10.04.16.
  */
 public class GameController implements Initializable, CurrentScreen, Global {
-    ScreenController scrCtrl;
-    GraphicsContext ctx;
-    ViewPoint viewPoint;
+    private ScreenController scrCtrl;
+    private GraphicsContext ctx;
+    private ViewPoint viewPoint;
     @FXML Canvas canvas;
     @FXML VBox gameMenu;
     @FXML VBox gamePlay;
-    boolean showMenu;
-    double zoom = 1;
+    private boolean showMenu;
+    private double zoom = 1;
 
     @Override
     public void initialize (URL url, ResourceBundle src) {
         ctx = canvas.getGraphicsContext2D();
         showMenu(false);
 
-        viewPoint = new ViewPoint(0, 0);
-        Player player = new Player(100, 100);
+        viewPoint = new ViewPoint(100, Math.PI);
+        Player player = new Player(100, Math.PI);
 
         new AnimationTimer() {
             @Override
@@ -63,6 +62,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
                         removeKeysPressed();
                     } else {
+
                         /**
                          * Game logic and controllers.
                          */
@@ -82,6 +82,14 @@ public class GameController implements Initializable, CurrentScreen, Global {
                             player.increaseY(-1);
                         }
 
+                        if (isKeyDown("Z")) {
+                            zoom += .01;
+                        }
+
+                        if (isKeyDown("X")) {
+                            zoom -= .01;
+                        }
+
                         if (isKeyPressed("P")) {
                             showMenu();
                         }
@@ -91,6 +99,11 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         }
 
                         removeKeysPressed();
+
+                        /**
+                         * Movements and coordinates.
+                         */
+                        viewPoint.setPosition(player.getY(), player.getX());
 
                         /**
                          * First clearing the stage for the next frame.
@@ -105,20 +118,17 @@ public class GameController implements Initializable, CurrentScreen, Global {
                          * Drawing the background.
                          */
                         ctx.setFill(Color.LIGHTGRAY);
-                        ctx.setStroke(Color.DARKGRAY);
-                        ctx.setLineWidth(10);
+                        ctx.setStroke(Color.BLACK);
+                        ctx.setLineWidth(1);
                         ctx.fillOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
+                        ctx.strokeOval(vpx(0, 0) - vps(100) / 2, vpy(0, 0) - vps(100) / 2, vps(100), vps(100));
 
                         /**
                          * Drawing the player.
                          */
-                        ctx.setStroke(Color.BLACK);
-                        ctx.setLineWidth(2);
+                        ctx.setLineWidth(1);
                         drawBody(ctx, player, false);
                         drawBody(ctx, player, true);
-
-                        //ctx.fill();
-                        //ctx.stroke();
                     }
                 }
             }
@@ -154,6 +164,10 @@ public class GameController implements Initializable, CurrentScreen, Global {
         double gy = body.getY();
         double x, y, r, w, h;
         double[] xP, yP;
+
+        if (debugDraw) {
+            gc.setStroke(Color.BLUE);
+        }
 
         for (Shape shape : body.getShapes()) {
             x = shape.getX();
@@ -223,7 +237,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
         if (debug) {
             gc.setStroke(Color.BLUE);
-            gc.setLineWidth(2);
+            gc.setLineWidth(1);
             gc.strokeOval(vpx(gx, gy) - .5, vpy(gx, gy) - .5, 1, 1);
         }
     }
@@ -239,7 +253,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      */
     private double lvpx (double gx, double gy, double x, double y) {
         double lrad = Math.atan2(y, x);
-        return vpx(gx, gy) + Math.sqrt(x * x + y * y) * Math.sin(gx + lrad);
+        return vpx(gx, gy) + vps(Math.sqrt(x * x + y * y) * Math.sin(gx + lrad));
     }
 
     /**
@@ -253,7 +267,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
      */
     private double lvpy (double gx, double gy, double x, double y) {
         double lrad = Math.atan2(y, x);
-        return vpy(gx, gy) + Math.sqrt(x * x + y * y) * Math.cos(gx + lrad);
+        return vpy(gx, gy) + vps(Math.sqrt(x * x + y * y) * Math.cos(gx + lrad));
     }
 
     /**
@@ -269,8 +283,8 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * VPX = View Point X
      */
     private double vpx (double x, double y) {
-        double posX = y * Math.sin(x);
-        return posX - this.viewPoint.getX() + canvas.getWidth() / 2;
+        double posX = vps(y * Math.sin(x) - this.viewPoint.getY() * Math.sin(this.viewPoint.getX()));
+        return posX + canvas.getWidth() / 2;
     }
 
     /**
@@ -278,8 +292,8 @@ public class GameController implements Initializable, CurrentScreen, Global {
      * VPX = View Point X
      */
     private double vpy (double x, double y) {
-        double posY = y * Math.cos(x);
-        return posY - this.viewPoint.getY() + canvas.getHeight() / 2;
+        double posY = vps(y * Math.cos(x) - this.viewPoint.getY() * Math.cos(this.viewPoint.getX()));
+        return posY + canvas.getHeight() / 2;
     }
 
     /**
@@ -301,15 +315,15 @@ public class GameController implements Initializable, CurrentScreen, Global {
             case "DOWN":
                 return keyCodes.contains("DOWN") || keyCodes.contains("S");
             default:
-                return false;
+                return keyCodes.contains(key);
         }
     }
 
     /**
      * Checks if key is pressed.
      *
-     * @param key
-     * @return
+     * @param key = String describing key
+     * @return = true if pressed (this means one time, not longer)
      */
     private boolean isKeyPressed (String key) {
         boolean pressed = keyPressedCodes.contains(key);
