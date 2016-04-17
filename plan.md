@@ -9,8 +9,8 @@ Om det er tid igjen ville det vært gøy å hekte systemet opp mot en API på en
 ### 2. Krav
 
 - [x] Skal være responsivt og støtte de fleste skjermer.
-- [ ] Skal tegne det meste av grafikken med vektorer slik at det blir skalerbart og like fint.
-- [ ] Foreløpig støtte piltaster og datamus.
+- [x] Skal tegne det meste av grafikken med vektorer slik at det blir skalerbart og like fint.
+- [x] Foreløpig støtte piltaster og datamus.
 - [ ] Være up-to-date med JDK 8
 - [ ] Utvikles innen 2 uker.
 
