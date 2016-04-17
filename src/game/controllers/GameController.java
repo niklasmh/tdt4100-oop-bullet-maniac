@@ -46,8 +46,8 @@ public class GameController implements Initializable, CurrentScreen, Global {
         ctx = canvas.getGraphicsContext2D();
         showMenu(false);
 
-        viewPoint = new ViewPoint(100, 0);
-        Player player = new Player(100, 0);
+        viewPoint = new ViewPoint(1337 / 2, 0);
+        Player player = new Player(1337 / 2 + 40, 0);
         Planet planet = new Planet();
         Element element = new Element();
 
@@ -70,28 +70,24 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         /**
                          * Game logic and controllers.
                          */
-                        if (isKeyDown("LEFT")) {
-                            player.increaseX(1);
+                        if (isKeyDown("LEFT") && !isKeyDown("RIGHT")) {
+                            player.setVelX(.3);
+                        } else if (isKeyDown("RIGHT") && !isKeyDown("LEFT")) {
+                            player.setVelX(-.3);
                         }
 
-                        if (isKeyDown("RIGHT")) {
-                            player.increaseX(-1);
-                        }
-
-                        if (isKeyDown("UP")) {
-                            player.increaseY(1);
-                        }
-
-                        if (isKeyDown("DOWN")) {
-                            player.increaseY(-1);
+                        if ((isKeyPressed("UP") || isKeyPressed("SPACE")) && player.getSpeedY() == 0) {
+                            player.setVelY(6);
+                        } else {
+                            player.addVelY(-.05);
                         }
 
                         if (isKeyDown("Z")) {
-                            zoom += .01;
+                            zoom *= .99;
                         }
 
                         if (isKeyDown("X")) {
-                            zoom -= .01;
+                            zoom *= 1/.99;
                         }
 
                         if (isKeyPressed("P")) {
@@ -107,6 +103,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         /**
                          * Movements and coordinates.
                          */
+                        player.update();
                         viewPoint.setPosition(player.getY(), player.getX() + Math.PI);
 
                         /**

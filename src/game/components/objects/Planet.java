@@ -6,6 +6,7 @@ import game.components.core.shapes.Polygon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Niklas on 4/17/2016.
@@ -19,9 +20,17 @@ public class Planet extends Body {
     public Planet (double radius, double angle) {
         super(radius, angle);
 
+        Random rand = new Random();
         List<LocalPoint> points = new ArrayList<>();
-        for (double i = 0, s = 100; i <= Math.PI ; i += Math.PI / 10.0) {
-            points.add(new LocalPoint(s * Math.sin(i), s * Math.cos(i)));
+
+        for (double i = 0, s = 1337 / 2; i <= Math.PI; i += Math.PI / s * 2) {
+            double r = rand.nextDouble() / s * 2 + 1 - 1 / s * 2;
+            points.add(new LocalPoint(r * s * Math.sin(i), r * s * Math.cos(i)));
+        }
+
+        for (double i = Math.PI, s = 1200 / 2; i > 0; i -= Math.PI / s * 2) {
+            double r = rand.nextDouble() / s * 2 + 1 - 1 / s * 2;
+            points.add(new LocalPoint(r * s * Math.sin(i), r * s * Math.cos(i)));
         }
 
         Polygon track = new Polygon(0, 0);
