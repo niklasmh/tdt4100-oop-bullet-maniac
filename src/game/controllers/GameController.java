@@ -40,16 +40,16 @@ public class GameController implements Initializable, CurrentScreen, Global {
     @FXML VBox gamePlay;
     private boolean showMenu;
     private double zoom = 1;
+    private Player player;
+    private Planet planet;
+    private Element element;
 
     @Override
     public void initialize (URL url, ResourceBundle src) {
         ctx = canvas.getGraphicsContext2D();
         showMenu(false);
 
-        viewPoint = new ViewPoint(1337 / 2, 0);
-        Player player = new Player(1337 / 2 + 40, 0);
-        Planet planet = new Planet();
-        Element element = new Element();
+        init();
 
         new AnimationTimer() {
             @Override
@@ -76,8 +76,8 @@ public class GameController implements Initializable, CurrentScreen, Global {
                             player.setVelX(-.3);
                         }
 
-                        if ((isKeyPressed("UP") || isKeyPressed("SPACE")) && player.getSpeedY() == 0) {
-                            player.setVelY(6);
+                        if (isKeyPressed("UP") || isKeyPressed("SPACE")) {
+                            player.jump();
                         } else {
                             player.addVelY(-.05);
                         }
@@ -101,6 +101,11 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         removeKeysPressed();
 
                         /**
+                         * Collisions.
+                         */
+                        player.collision(planet);
+
+                        /**
                          * Movements and coordinates.
                          */
                         player.update();
@@ -115,6 +120,11 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         ctx.setFill(Color.GRAY);
                         ctx.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+
+                        drawBody(ctx, planet, true);
+                        drawBody(ctx, element, true);
+                        drawBody(ctx, player, true);
+
                         /**
                          * Drawing the background.
                          */
@@ -122,13 +132,11 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(1);
                         drawBody(ctx, planet, false);
-                        drawBody(ctx, planet, true);
 
                         ctx.setFill(Color.RED);
                         ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(1);
                         drawBody(ctx, element, false);
-                        drawBody(ctx, element, true);
 
                         /**
                          * Drawing the player.
@@ -137,7 +145,6 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         ctx.setStroke(Color.BLACK);
                         ctx.setLineWidth(1);
                         drawBody(ctx, player, false);
-                        drawBody(ctx, player, true);
                     }
                 }
             }
@@ -175,7 +182,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
         double[] xP, yP;
 
         if (debugDraw) {
-            gc.setLineWidth(1);
+            gc.setLineWidth(4);
             gc.setStroke(Color.BLUE);
         }
 
@@ -282,7 +289,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
     /**
      * Convert scaling to right scale relative to screen.
-     * VPX = View Point Scale
+     * VPS = View Point Scale
      */
     private double vps(double val) {
         return val * this.zoom;
@@ -299,7 +306,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
     /**
      * Convert all points relative to ViewPoint.
-     * VPX = View Point X
+     * VPY = View Point Y
      */
     private double vpy (double x, double y) {
         double posY = vps(y * Math.cos(x - this.viewPoint.getX()) + this.viewPoint.getY());
@@ -389,7 +396,15 @@ public class GameController implements Initializable, CurrentScreen, Global {
 
     private void resetGame () {
         showMenu(false);
+        scrCtrl.getChildren().removeAll();
         ctx.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+    }
+
+    private void init () {
+        viewPoint = new ViewPoint(1337 / 2, 0);
+        player = new Player(100 + 40, 0);
+        planet = new Planet();
+        element = new Element();
     }
 
     private void toggleMenu () {
