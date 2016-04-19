@@ -8,34 +8,37 @@ import game.components.core.LocalPoint;
 public class Rectangle extends Polygon {
     private double w, h;
 
-    public Rectangle (double x, double y, double w, double h) {
-        super(x, y,
+    public Rectangle (double gx, double gy, double x, double y, double w, double h) {
+        super(gx, gy,
+                new LocalPoint(x, y),
                 new LocalPoint(x + w, y),
                 new LocalPoint(x + w, y + h),
                 new LocalPoint(x, y + h));
         this.w = w;
         this.h = h;
-        this.setType("Rectangle");
+        this.setType("Polygon");
     }
 
-    public Rectangle (double x, double y, double w, double h, double rot) {
-        super(x, y, rot,
+    public Rectangle (double gx, double gy, double x, double y, double w, double h, double rot) {
+        super(gx, gy, rot,
+                new LocalPoint(x, y),
                 new LocalPoint(x + w, y),
                 new LocalPoint(x + w, y + h),
                 new LocalPoint(x, y + h));
         this.w = w;
         this.h = h;
-        this.setType("Rectangle");
+        this.setType("Polygon");
     }
 
-    public Rectangle (double x, double y, double w, double h, double rot, double scale) {
-        super(x, y, rot, scale,
+    public Rectangle (double gx, double gy, double x, double y, double w, double h, double rot, double scale) {
+        super(gx, gy, rot, scale,
+                new LocalPoint(x, y),
                 new LocalPoint(x + w, y),
                 new LocalPoint(x + w, y + h),
                 new LocalPoint(x, y + h));
         this.w = w;
         this.h = h;
-        this.setType("Rectangle");
+        this.setType("Polygon");
     }
 
     public double getW () {

@@ -103,7 +103,7 @@ public class GameController implements Initializable, CurrentScreen, Global {
                         /**
                          * Collisions.
                          */
-                        player.collision(planet);
+                        player.collision(planet, element);
 
                         /**
                          * Movements and coordinates.

@@ -27,7 +27,7 @@ public class Player extends Body {
         this.velX = 0;
         this.velY = 0;
 
-        this.addShape(new Circle(0, 0, 20));
+        this.addShape(new Circle(0, 0, 40));
     }
 
     public void update () {
@@ -103,8 +103,9 @@ public class Player extends Body {
 
     public void collision (Body... bodies) {
 
-        double x = 0, y = 100, x1 = -50, y1 = 100, x2 = 50, y2 = 0, lrad;
-        double ang = - Math.atan2(y2 - y1, x2 - x1) - this.getX() + x;
+        /** /
+        double x = 0, y = 100, x2 = 50, y2 = 0, x1 = -50, y1 = 0, lrad;
+        double ang = ((y2 - y1)*(x2 - x1) < 0 ? Math.PI : 0) - (Math.atan2((y2 - y1), (x2 - x1))) - this.getX() + x;
 
         //double r = this.distPointToLine(this.getX(), this.getY(), x1, y1, x2, y2);
         //System.out.println(this.closestPointFromPointToLine(this.getX(), this.getY(), x1, y1, x2, y2, 0) + " - " + r);
@@ -123,6 +124,7 @@ public class Player extends Body {
         double rx = this.intersectionBetweenLines(px1, py1, px2, py2, 0, 0, 1000 * Math.sin(this.getX()), 1000 * Math.cos(this.getX()), 0);
         double ry = this.intersectionBetweenLines(px1, py1, px2, py2, 0, 0, 1000 * Math.sin(this.getX()), 1000 * Math.cos(this.getX()), 1);
         double dist = Math.sqrt(rx*rx + ry*ry) - this.getY();
+        System.out.println(dist);
 
         if (!Double.isNaN(dist)) {
             if (dist < ((Circle) this.getShapes().get(0)).getCircleRadius() / 2 && dist > 0) {
@@ -134,17 +136,62 @@ public class Player extends Body {
             }
             //this.addVelY(-this.getVelY());
             this.jumps = 0;
-        }
+        }/**/
 
         for (Body body : bodies) {
             for (Shape shape : body.getShapes()) {
                 switch (shape.getType()) {
                     case "Polygon":
                         Polygon poly = (Polygon) shape;
+                        /**/
+
+                        double x = poly.getX();
+                        double y = poly.getY();
+                        double x1;
+                        double y1;
+                        double x2 = poly.getPoints().get(poly.getPoints().size() - 1).getX();
+                        double y2 = poly.getPoints().get(poly.getPoints().size() - 1).getY();
+                        double lrad;
 
                         for (LocalPoint point : poly.getPoints()) {
 
-                        }
+                            x1 = point.getX();
+                            y1 = point.getY();
+
+                            double ang = ((x2 - x1) < 0 ? Math.PI : 0) - Math.atan2(y2 - y1, x2 - x1) - this.getX() + x;
+
+                            double posX = y * Math.sin(x);
+                            double posY = y * Math.cos(x);
+
+                            lrad = Math.atan2(y1, x1) - x;
+                            double px1 = posX + Math.sqrt(x1 * x1 + y1 * y1) * Math.cos(lrad);
+                            double py1 = posY + Math.sqrt(x1 * x1 + y1 * y1) * Math.sin(lrad);
+
+                            lrad = Math.atan2(y2, x2) - x;
+                            double px2 = posX + Math.sqrt(x2 * x2 + y2 * y2) * Math.cos(lrad);
+                            double py2 = posY + Math.sqrt(x2 * x2 + y2 * y2) * Math.sin(lrad);
+
+                            int s = ((x2 - x1) < 0 ? 1 : -1)*100000;
+
+                            double rx = this.intersectionBetweenLines(px1, py1, px2, py2, 0, 0, s * Math.sin(this.getX()), s * Math.cos(this.getX()), 0);
+                            double ry = this.intersectionBetweenLines(px1, py1, px2, py2, 0, 0, s * Math.sin(this.getX()), s * Math.cos(this.getX()), 1);
+                            double dist = Math.sqrt(rx*rx + ry*ry) - this.getY();
+
+                            if (!Double.isNaN(dist)) {
+                                if (dist < ((Circle) this.getShapes().get(0)).getCircleRadius() / 2 && dist > 0) {
+                                    this.setAngle(this.getAngle() + (dist - ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.sin(ang) / 500);
+                                    this.setRadius(this.getRadius() + (dist - ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.cos(ang));
+                                } else if (dist > -((Circle) this.getShapes().get(0)).getCircleRadius() / 2 && dist < 0) {
+                                    this.setAngle(this.getAngle() + (dist + ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.sin(ang) / 500);
+                                    this.setRadius(this.getRadius() + (dist + ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.cos(ang));
+                                }
+                                //this.addVelY(-this.getVelY());
+                                this.jumps = 0;
+                            }
+
+                            x2 = x1;
+                            y2 = y1;
+                        }/**/
                         break;
                 }
             }

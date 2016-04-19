@@ -15,6 +15,6 @@ public class Element extends Body {
     public Element (double radius, double angle) {
         super(radius, angle);
 
-        this.addShape(new Rectangle(-50, 100, 100, 100));
+        this.addShape(new Rectangle(Math.PI/2, 100, 0, 0, 100, 100));
     }
 }

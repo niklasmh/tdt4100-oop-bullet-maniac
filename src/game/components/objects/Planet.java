@@ -23,12 +23,12 @@ public class Planet extends Body {
         Random rand = new Random();
         List<LocalPoint> points = new ArrayList<>();
 
-        for (double i = 0, s = 1337 / 14; i <= Math.PI; i += Math.PI / s * 2) {
+        for (double i = Math.PI/2, s = 1337 / 8; i <= Math.PI; i += Math.PI / s * 2) {
             double r = rand.nextDouble() / s * 2 + 1 - 1 / s * 2;
             points.add(new LocalPoint(r * s * Math.sin(i), r * s * Math.cos(i)));
         }
 
-        for (double i = Math.PI, s = 1200 / 13; i > 0; i -= Math.PI / s * 2) {
+        for (double i = Math.PI, s = 1200 / 8; i > Math.PI/2; i -= Math.PI / s * 2) {
             double r = rand.nextDouble() / s * 2 + 1 - 1 / s * 2;
             points.add(new LocalPoint(r * s * Math.sin(i), r * s * Math.cos(i)));
         }
