@@ -104,7 +104,7 @@ public class Player extends Body {
     public void collision (Body... bodies) {
 
         double x = 0, y = 100, x1 = -50, y1 = 100, x2 = 50, y2 = 0, lrad;
-        double ang = Math.atan2(y2 - y1, x2 - x1) - this.getX() + x;
+        double ang = - Math.atan2(y2 - y1, x2 - x1) - this.getX() + x;
 
         //double r = this.distPointToLine(this.getX(), this.getY(), x1, y1, x2, y2);
         //System.out.println(this.closestPointFromPointToLine(this.getX(), this.getY(), x1, y1, x2, y2, 0) + " - " + r);
@@ -128,7 +128,6 @@ public class Player extends Body {
             if (dist < ((Circle) this.getShapes().get(0)).getCircleRadius() / 2 && dist > 0) {
                 this.setAngle(this.getAngle() + (dist - ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.sin(ang) / 500);
                 this.setRadius(this.getRadius() + (dist - ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.cos(ang));
-                System.out.println(dist);
             } else if (dist > -((Circle) this.getShapes().get(0)).getCircleRadius() / 2 && dist < 0) {
                 this.setAngle(this.getAngle() + (dist + ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.sin(ang) / 500);
                 this.setRadius(this.getRadius() + (dist + ((Circle) this.getShapes().get(0)).getCircleRadius() / 2) * Math.cos(ang));
